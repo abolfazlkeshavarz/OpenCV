@@ -17,5 +17,5 @@ cv.imwrite("RGB.png",ImgPC)
 ByteArray1 = bytearray(ImgPC)
 print(ByteArray1)
 
-ByteArray2 = bytearray("Hello World","UTF-8")
+ByteArray2 = bytearray("Hello","UTF-8")
 print(ByteArray2)
