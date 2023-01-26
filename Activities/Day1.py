@@ -44,10 +44,13 @@ print(ImgPC.item(1, 1, 0)) # show the pixel with blue value
 
 
 MyImg = cv.imread(r'E:\Madarek\Myself.jpg')
-
-MyImg[:, :, 0] = 0
+## delte B,R,G --> colours
+#MyImg[:, :, 0] = 0
 #MyImg[:, :, 1] = 0
 #MyImg[:, :, 2] = 0
+print(MyImg.shape) #image shape 
+print(MyImg.size) #image size
+print(MyImg.dtype) #Image Type
 
 cv.imwrite('MySelf.jpg', MyImg)
 cv.imshow('MySelf.jpg', MyImg)
