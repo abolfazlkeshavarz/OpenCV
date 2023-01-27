@@ -9,7 +9,7 @@ print("\n")
 print(Img1.shape)
 
 ## Just a test for myself:
-    #Img1 = cv.cvtColor(Img1, cv.COLOR_GRAY2BGR)
+    #Img1 = cv.cvtColor(Img1, cv.COLOR_GRAY2BGR) 
     #print(Img1)
     #print(Img1.shape)
 
@@ -53,11 +53,37 @@ MyImg = cv.imread(r'E:\Madarek\Myself.jpg')
 print(MyImg.shape) #image shape 
 print(MyImg.size) #image size
 print(MyImg.dtype) #Image Type
-# test
+
 cv.imwrite('MySelf.jpg', MyImg)
 cv.imshow('MySelf.jpg', MyImg)
 cv.waitKey(0)
 cv.destroyAllWindows()
 
 
-#hahahaha
+# Capturing a Video
+Video = cv.VideoCapture(r"E:\01_NewDjango_Ordookhani.avi")
+fps = Video.get(cv.CAP_PROP_FPS)
+print(int(fps))
+size = (int(Video.get(cv.CAP_PROP_FRAME_WIDTH)), int(Video.get(cv.CAP_PROP_FRAME_HEIGHT)))
+print(size)
+WrottenVideo = cv.VideoWriter('Sample.avi', cv.VideoWriter_fourcc('X','V','I','D'), fps, size)
+
+correct, frame = Video.read()
+while correct:
+    WrottenVideo.write(frame)
+    correct, frame = Video.read()
+
+
+# Capture Camera and write the video
+Camera = cv.VideoCapture(0)
+Fps = Camera.get(cv.CAP_PROP_FPS)
+print(Fps)
+Size = (int(Camera.get(cv.CAP_PROP_FRAME_WIDTH)), int(Camera.get(cv.CAP_PROP_FRAME_HEIGHT)))
+print(Size)
+WrottenCameraVid = cv.VideoWriter('My Cam.avi', cv.VideoWriter_fourcc('X', 'V', 'I', 'D'), Fps, Size)
+success, Frame = Camera.read()
+FrameNum = 15 * Fps  
+while success and FrameNum != 0:
+    WrottenCameraVid.write(Frame)
+    success, Frame = Camera.read()
+    FrameNum -= 1
