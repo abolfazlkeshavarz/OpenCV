@@ -74,7 +74,7 @@ while correct:
     correct, frame = Video.read()
 
 
-# Capture Camera and write the video
+## Capture Camera and write the video
 Camera = cv.VideoCapture(0)
 Fps = Camera.get(cv.CAP_PROP_FPS)
 print(Fps)
