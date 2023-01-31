@@ -41,3 +41,23 @@ class CaptureManager(object):
     def WritingVideo(self):
         return self._VideoFileName is not None
     
+    def EnterFrame(self):
+        """Capture The Next Frame"""
+        assert  not self._enteredFrame, \
+        'previous entered frame had no exit frame'
+        if self._capture is not None:
+            self._enteredFrame = self._capture.grab()
+
+    def ExitFrame(self):
+        """Draw to the window. Write to files. Release the Frames"""
+        if  self.Frame is None:
+            self._enteredFrame = False
+            return
+        
+        #Update fps estimated
+        if self._FramesElapsed == 0:
+            self._StartTime = time.time()
+        else:
+            timeElapsed = time.time() - self._StartTime
+            self._fpsEstimate = self._FramesElapsed / timeElapsed
+        self._FramesElapsed += 1
