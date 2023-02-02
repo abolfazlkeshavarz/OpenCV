@@ -2,14 +2,6 @@ import cv2 as cv
 import numpy as np
 import time
 
-class WindowManger(object):
-    def __init__(self, WindowName, keyCallback = None):
-        self.keypresscallback = keyCallback
-        self._WindowName = WindowName
-        self._isWindowCreate = False
-        
-        
-
 
 class CaptureManager(object):
     def __init__(self, capture, previewWindowManager = None, Mirrored = False):
@@ -39,7 +31,7 @@ class CaptureManager(object):
     @property
     def Frame(self):
         if self._enteredFrame and self._Frame is None:
-             self._Frame = self._capture.retrieve(self._Frame, self._channel)
+            _, self._Frame = self._capture.retrieve(self._Frame, self._channel)
         return self._Frame
     
     @property
@@ -76,9 +68,9 @@ class CaptureManager(object):
         if self.PreviewWM is not None:
             if self.Mirrored:
                 MirroredImg = np.fliplr(self._Frame)
-                self.PreviewWM.show(MirroredImg)
+                self.PreviewWM.Show(MirroredImg)
             else:
-                self.PreviewWM.show(self._Frame)
+                self.PreviewWM.Show(self._Frame)
 
         # Write to image file:
         if self.WritingImage:
@@ -95,10 +87,10 @@ class CaptureManager(object):
 
 
     def WriteImg(self, filename):
-        """Write the nect exited frame to an image"""
+        """Write the next exited frame to an image"""
         self._ImageFileName = filename
 
-    def WritingVid(self, filename, encoding = cv.VideoWriter_fourcc('X','V','I','D')):
+    def WritingVid(self, filename, encoding = cv.VideoWriter_fourcc('M','J','P','G')):
             self._VideoFileName = filename
             self._VideoEncoding = encoding
 
@@ -119,6 +111,30 @@ class CaptureManager(object):
                     fps = self._fpsEstimate
             size = (int(self._capture.get(cv.CAP_PROP_FRAME_WIDTH)), int(self._capture.get(cv.CAP_PROP_FRAME_HEIGHT)))
             self._VideoWriter = cv.VideoWriter(self._VideoFileName, self._VideoEncoding, fps, size)
-            self._VideoWriter.write(self._frame)
+            self._VideoWriter.write(self._Frame)
 
+
+
+class WindowManger(object):
+    def __init__(self, WindowName, keyCallback = None, MouseCallback = None):
+        self.MousePressCallBack = MouseCallback
+        self.keypresscallback = keyCallback
+        self._WindowName = WindowName
+        self._isWindowCreated = False
+
+    @property
+    def isWindowCreated(self):
+        return self._isWindowCreated
+    def CreateWindow(self):
+        cv.namedWindow(self._WindowName)
+        self._isWindowCreated = True
+    def Show(self, Frame):
+        cv.imshow(self._WindowName, Frame)
+    def DestroyWindow(self):
+        cv.destroyWindow(self._WindowName)
+        self._isWindowCreated = False
+    def ProcessEvent(self):
+        keyCode = cv.waitKey(1)
+        if self.keypresscallback is not None and keyCode != -1:
+            self.keypresscallback(keyCode)
 
