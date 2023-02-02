@@ -2,6 +2,15 @@ import cv2 as cv
 import numpy as np
 import time
 
+class WindowManger(object):
+    def __init__(self, WindowName, keyCallback = None):
+        self.keypresscallback = keyCallback
+        self._WindowName = WindowName
+        self._isWindowCreate = False
+        
+        
+
+
 class CaptureManager(object):
     def __init__(self, capture, previewWindowManager = None, Mirrored = False):
         self.PreviewWM = previewWindowManager
@@ -61,3 +70,55 @@ class CaptureManager(object):
             timeElapsed = time.time() - self._StartTime
             self._fpsEstimate = self._FramesElapsed / timeElapsed
         self._FramesElapsed += 1
+
+
+        #draw to window
+        if self.PreviewWM is not None:
+            if self.Mirrored:
+                MirroredImg = np.fliplr(self._Frame)
+                self.PreviewWM.show(MirroredImg)
+            else:
+                self.PreviewWM.show(self._Frame)
+
+        # Write to image file:
+        if self.WritingImage:
+            cv.imwrite(self._ImageFileName, self._Frame)
+            self._ImageFileName = None
+        
+        # Write to video file:
+        self._VideoWriterFrame()
+
+        #release
+        self._Frame = None
+        self._enteredFrame = False
+
+
+
+    def WriteImg(self, filename):
+        """Write the nect exited frame to an image"""
+        self._ImageFileName = filename
+
+    def WritingVid(self, filename, encoding = cv.VideoWriter_fourcc('X','V','I','D')):
+            self._VideoFileName = filename
+            self._VideoEncoding = encoding
+
+    def StopWriting(self):
+        self._VideoFileName = None
+        self._VideoWriter = None
+        self._VideoEncoding = None
+
+    def _VideoWriterFrame(self):
+        if not self.WritingVideo is None:
+            return
+        if self._VideoWriter is None:
+            fps = self._capture.get(cv.CAP_PROP_FPS)
+            if fps <= 0.0:
+                if self._fpsEstimate < 20:
+                    return
+                else:
+                    fps = self._fpsEstimate
+            size = (int(self._capture.get(cv.CAP_PROP_FRAME_WIDTH)), int(self._capture.get(cv.CAP_PROP_FRAME_HEIGHT)))
+            self._VideoWriter = cv.VideoWriter(self._VideoFileName, self._VideoEncoding, fps, size)
+            self._VideoWriter.write(self._frame)
+
+
