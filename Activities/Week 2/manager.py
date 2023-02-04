@@ -90,7 +90,7 @@ class CaptureManager(object):
         """Write the next exited frame to an image"""
         self._ImageFileName = filename
 
-    def WritingVid(self, filename, encoding = cv.VideoWriter_fourcc('M','J','P','G')):
+    def WritingVid(self, filename, encoding = cv.VideoWriter_fourcc('X','V','I','D')):
             self._VideoFileName = filename
             self._VideoEncoding = encoding
 
