@@ -57,9 +57,9 @@ class CaptureManager(object):
         
         #Update fps estimated
         if self._FramesElapsed == 0:
-            self._StartTime = time.time()
+            self._StartTime = time.perf_counter()
         else:
-            timeElapsed = time.time() - self._StartTime
+            timeElapsed = time.perf_counter() - self._StartTime
             self._fpsEstimate = self._FramesElapsed / timeElapsed
         self._FramesElapsed += 1
 
@@ -90,7 +90,7 @@ class CaptureManager(object):
         """Write the next exited frame to an image"""
         self._ImageFileName = filename
 
-    def WritingVid(self, filename, encoding = cv.VideoWriter_fourcc('X','V','I','D')):
+    def WritingVid(self, filename, encoding = cv.VideoWriter_fourcc('M','J','P','G')):
             self._VideoFileName = filename
             self._VideoEncoding = encoding
 
@@ -100,8 +100,9 @@ class CaptureManager(object):
         self._VideoEncoding = None
 
     def _VideoWriterFrame(self):
-        if not self.WritingVideo is None:
+        if not self.WritingVideo :
             return
+        
         if self._VideoWriter is None:
             fps = self._capture.get(cv.CAP_PROP_FPS)
             if fps <= 0.0:
@@ -116,8 +117,7 @@ class CaptureManager(object):
 
 
 class WindowManger(object):
-    def __init__(self, WindowName, keyCallback = None, MouseCallback = None):
-        self.MousePressCallBack = MouseCallback
+    def __init__(self, WindowName, keyCallback = None):
         self.keypresscallback = keyCallback
         self._WindowName = WindowName
         self._isWindowCreated = False

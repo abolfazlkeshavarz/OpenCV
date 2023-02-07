@@ -33,7 +33,7 @@ class cameo(object):
             self._CaptureManager.WriteImg("ScreenShot"+time.strftime("%Y%m%d-%H%M%S")+".png")
         elif keycode == 83:
             if not self._CaptureManager.WritingVideo:
-                self._CaptureManager.WritingVid('CapturedVideo.avi', cv.VideoWriter_fourcc('M','J','P','G'))
+                self._CaptureManager.WritingVid('CapturedVideo.avi')
             else:
                 self._CaptureManager.StopWriting()
         elif keycode == 27:
