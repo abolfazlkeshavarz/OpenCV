@@ -105,14 +105,14 @@ class CaptureManager(object):
         
         if self._VideoWriter is None:
             fps = self._capture.get(cv.CAP_PROP_FPS)
-            if fps <= 0.0:
+            if np.isnan(fps) or fps <= 0.0:
                 if self._fpsEstimate < 20:
                     return
                 else:
                     fps = self._fpsEstimate
             size = (int(self._capture.get(cv.CAP_PROP_FRAME_WIDTH)), int(self._capture.get(cv.CAP_PROP_FRAME_HEIGHT)))
             self._VideoWriter = cv.VideoWriter(self._VideoFileName, self._VideoEncoding, fps, size)
-            self._VideoWriter.write(self._Frame)
+        self._VideoWriter.write(self._Frame)
 
 
 

@@ -1,7 +1,5 @@
 import cv2 as cv
 from manager import CaptureManager, WindowManger
-from pathlib import Path
-import random
 import time
 
 class cameo(object):
@@ -31,7 +29,7 @@ class cameo(object):
         
         if keycode == 32:
             self._CaptureManager.WriteImg("ScreenShot"+time.strftime("%Y%m%d-%H%M%S")+".png")
-        elif keycode == 83:
+        elif keycode == 9:
             if not self._CaptureManager.WritingVideo:
                 self._CaptureManager.WritingVid('CapturedVideo.avi')
             else:
