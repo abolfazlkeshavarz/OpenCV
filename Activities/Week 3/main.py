@@ -15,7 +15,12 @@ MinionIMG = cv.imread(r"C:\Users\Turbo\Desktop\Minions.jpg", 0)
 
 MinionK3 = ndimage.convolve(MinionIMG, KernelMatrix_3x3)
 MinionK5 = ndimage.convolve(MinionIMG, KernelMatrix_5x5)
+Blurred = cv.GaussianBlur(MinionIMG, (7,7), 0)
+Hpf = MinionIMG - Blurred
+cv.imshow("Blurred", Blurred)
+cv.imshow("HPF", Hpf)
 cv.imshow("3x3", MinionK3)
 cv.imshow("5x5", MinionK5)
-cv.waitKey(0)
+cv.waitKey()
+cv.destroyAllWindows()
 
