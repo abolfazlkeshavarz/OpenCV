@@ -14,3 +14,17 @@ def strokeEdges(src, dst, blurKsize = 7, edgeKsize = 5):
     for channel in channels:
         channel[:] = channel * normallizedIA
     cv.merge(channels, dst)
+
+
+class VconvolutionFILTER(object):
+    def __init__(self, kernel):
+        self._kernel = kernel
+    def apply(self, src, dst):
+        cv.filter2D(src, -1, self._kernel, dst)
+
+class SharpenFilter(VconvolutionFILTER):
+    def __init__(self):
+        kernel = np.array([[-1, -1, -1],
+                           [-1,  9, -1],
+                           [-1, -1, -1]])        
+        VconvolutionFILTER.__init__(self, kernel)
