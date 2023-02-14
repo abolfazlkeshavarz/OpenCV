@@ -1,4 +1,3 @@
-import utils
 import cv2 as cv 
 import numpy as np
 
@@ -15,7 +14,6 @@ def strokeEdges(src, dst, blurKsize = 7, edgeKsize = 5):
         channel[:] = channel * normallizedIA
     cv.merge(channels, dst)
 
-
 class VconvolutionFILTER(object):
     def __init__(self, kernel):
         self._kernel = kernel
@@ -28,3 +26,28 @@ class SharpenFilter(VconvolutionFILTER):
                            [-1,  9, -1],
                            [-1, -1, -1]])        
         VconvolutionFILTER.__init__(self, kernel)
+
+class findEdgeFilter(VconvolutionFILTER):
+    def __init__(self):
+        kernel = np.array([[-1, -1, -1],
+                           [-1,  8, -1],
+                           [-1, -1, -1]])
+        
+        VconvolutionFILTER.__init__(self, kernel)
+
+class BlurFilter(VconvolutionFILTER):
+    def __init__(self):
+        kernel = np.array([[0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04],
+                           [0.04, 0.04, 0.04, 0.04, 0.04]])
+        VconvolutionFILTER.__init__(self, kernel)
+
+class EmbossFilter(VconvolutionFILTER):
+    def __init__(self):
+        kernel = np.array([[-2, -1, 0],
+                           [-1,  1, 1],
+                           [ 0,  1, 2]])
+        VconvolutionFILTER.__init__(self, kernel)
+
