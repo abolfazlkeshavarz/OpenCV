@@ -16,38 +16,41 @@ def strokeEdges(src, dst, blurKsize = 7, edgeKsize = 5):
 
 class VconvolutionFILTER(object):
     def __init__(self, kernel):
+        kernel = np.array([[-1, -1, -1],  
+                           [-1,  9, -1],
+                           [-1, -1, -1]])
         self._kernel = kernel
     def apply(self, src, dst):
         cv.filter2D(src, -1, self._kernel, dst)
 
 class SharpenFilter(VconvolutionFILTER):
     def __init__(self):
-        kernel = np.array([[-1, -1, -1],
-                           [-1,  9, -1],
-                           [-1, -1, -1]])        
-        VconvolutionFILTER.__init__(self, kernel)
+        kernel1 = np.array([[-1, -1, -1],
+                            [-1,  9, -1],
+                            [-1, -1, -1]])        
+        VconvolutionFILTER.__init__(self, kernel1)
 
 class findEdgeFilter(VconvolutionFILTER):
     def __init__(self):
-        kernel = np.array([[-1, -1, -1],
-                           [-1,  8, -1],
-                           [-1, -1, -1]])
+        kernel2 = np.array([[-1, -1, -1],
+                            [-1,  8, -1],
+                            [-1, -1, -1]])
         
-        VconvolutionFILTER.__init__(self, kernel)
+        VconvolutionFILTER.__init__(self, kernel2)
 
 class BlurFilter(VconvolutionFILTER):
     def __init__(self):
-        kernel = np.array([[0.04, 0.04, 0.04, 0.04, 0.04],
-                           [0.04, 0.04, 0.04, 0.04, 0.04],
-                           [0.04, 0.04, 0.04, 0.04, 0.04],
-                           [0.04, 0.04, 0.04, 0.04, 0.04],
-                           [0.04, 0.04, 0.04, 0.04, 0.04]])
-        VconvolutionFILTER.__init__(self, kernel)
+        kernel3 = np.array([[0.04, 0.04, 0.04, 0.04, 0.04],
+                            [0.04, 0.04, 0.04, 0.04, 0.04],
+                            [0.04, 0.04, 0.04, 0.04, 0.04],
+                            [0.04, 0.04, 0.04, 0.04, 0.04],
+                            [0.04, 0.04, 0.04, 0.04, 0.04]])
+        VconvolutionFILTER.__init__(self, kernel3)
 
 class EmbossFilter(VconvolutionFILTER):
     def __init__(self):
-        kernel = np.array([[-2, -1, 0],
-                           [-1,  1, 1],
-                           [ 0,  1, 2]])
-        VconvolutionFILTER.__init__(self, kernel)
+        kernel4 = np.array([[-2, -1, 0],
+                            [-1,  1, 1],
+                            [ 0,  1, 2]])
+        VconvolutionFILTER.__init__(self, kernel4)
 
