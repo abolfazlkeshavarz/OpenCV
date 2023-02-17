@@ -7,7 +7,6 @@ class cameo(object):
     def __init__(self):
         self._WindowManager = WindowManger('CAMEO', self.OnkeyPress)
         self._CaptureManager = CaptureManager(cv.VideoCapture(0), self._WindowManager, True)
-        self._curveFilter = filters.VconvolutionFILTER()
     def run(self):
         """Run the Main loop"""
         self._WindowManager.CreateWindow()
@@ -15,8 +14,7 @@ class cameo(object):
             self._CaptureManager.EnterFrame()
             frame = self._CaptureManager.Frame
             if frame is not None:
-                filters.strokeEdges(frame, frame)
-                self._curveFilter.apply(frame, frame)
+                pass
             self._CaptureManager.ExitFrame()
             self._WindowManager.ProcessEvent()
 
