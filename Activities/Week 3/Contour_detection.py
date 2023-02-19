@@ -5,10 +5,12 @@ import numpy as np
 Img = np.zeros((1000, 1000), dtype=np.uint8)
 Img[50:950 , 50:950] = 255
 
-ret, tresh = cv.threshold(Img, 127, 255, 0)
-contoures, hierarchy = cv.findContours(tresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+ret, thresh = cv.threshold(Img, 127, 255, 0)
+contoures, hierarchy = cv.findContours(thresh, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 color = cv.cvtColor(Img, cv.COLOR_GRAY2BGR)
 Img = cv.drawContours(color, contoures, -1, (0,255,0), 2)
 cv.imshow("NEW", Img)
+print(np.shape(thresh))
+print(np.shape(ret))
 cv.waitKey(0)
 cv.destroyAllWindows()

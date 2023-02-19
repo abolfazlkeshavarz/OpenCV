@@ -22,6 +22,7 @@ class CaptureManager(object):
     @property
     def channel(self):
         return self._channel
+    
     @channel.setter
     def channel(self,Value):
         if self._channel != Value:
