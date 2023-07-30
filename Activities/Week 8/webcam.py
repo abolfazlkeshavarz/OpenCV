@@ -1,3 +1,4 @@
+
 import cv2
 Cap = cv2.VideoCapture(0)
 while True:
